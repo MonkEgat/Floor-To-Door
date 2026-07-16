@@ -1,0 +1,494 @@
+<!-- 
+Floor to Door - index.html
+one page site, the "pages" are just divs that get shown/hidden with JS - see showPage() at the bottom
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floor to Door | Everything, delivered</title>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar">
+  <div class="brand" onclick="showPage('home')">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <rect x="4" y="4" width="9" height="22" rx="2" fill="#FFA630"/>
+      <rect x="17" y="4" width="9" height="22" rx="2" fill="#FF5D5D"/>
+    </svg>
+    <span class="brand-name">Floor to Door</span>
+  </div>
+
+  <!-- hamburger, only shows up on mobile (see media query in main.css) -->
+  <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- the 4 pages the brief asked for: Products, About Us, Contact Us, Sign In -->
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link" data-page="products" onclick="showPage('products')">Products</a>
+    <a class="nav-link" data-page="about" onclick="showPage('about')">About Us</a>
+    <a class="nav-link" data-page="contact" onclick="showPage('contact')">Contact Us</a>
+    <a class="nav-link" data-page="signin" onclick="showPage('signin')">Sign In</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HOME PAGE ============ -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="eyebrow">Delivered across South Africa</span>
+        <h1>From our <span>floor</span> to your door, today.</h1>
+        <p>Fashion, wellness and fragrance — all from local sellers, packed with care and dropped right at your doorstep.</p>
+        <div class="cta-row">
+          <a class="btn-primary" onclick="showPage('products')">Browse products</a>
+          <a class="btn-ghost" onclick="showPage('about')">Our story</a>
+        </div>
+      </div>
+      <div class="hero-arch">
+        <img src="https://picsum.photos/seed/f2d-hero/700/900" alt="Assortment of items ready for delivery">
+      </div>
+    </div>
+
+    <div class="category-strip">
+      <h2>Shop by category</h2>
+      <div class="pill-row">
+        <button class="pill" onclick="goToCategory('Fashion')">👕 Fashion</button>
+        <button class="pill" onclick="goToCategory('Wellness')">💊 Wellness</button>
+        <button class="pill" onclick="goToCategory('Fragrance')">🌸 Fragrance</button>
+        <button class="pill" onclick="goToCategory('Home')">🏠 Home</button>
+      </div>
+    </div>
+
+    <!-- simple 3 step explainer, this one actually is a sequence so numbering it makes sense -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>You order</h3>
+        <p>Pick anything from fashion to perfume in one simple checkout.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>We pack it</h3>
+        <p>Local partners prepare your order carefully, the same day.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>It lands at your door</h3>
+        <p>Track it live until it's on your doorstep, no surprises.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTS PAGE ============ -->
+  <section class="page" id="page-products">
+    <div class="page-header">
+      <h2>All products</h2>
+      <p>Swipe through the photos on each card and check the details before you add it to your basket.</p>
+    </div>
+
+    <!-- filled in by renderFilters() -->
+    <div class="filter-row" id="filterRow"></div>
+
+    <!-- filled in by renderProducts() -->
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- ============ ABOUT US PAGE ============ -->
+  <section class="page" id="page-about">
+    <div class="about-hero">
+      <h2>We believe delivery should feel local.</h2>
+      <p style="margin-top:16px;">Floor to Door started with a simple idea: your neighbourhood already has everything you need — the pharmacy on the corner, the boutique your friend swears by, the little fragrance counter downtown. We just make it easy to get their floor stock straight to your door, without losing the local feel.</p>
+    </div>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <h3>🚀 Speed</h3>
+        <p>Most orders reach you within the hour, from click to doorstep.</p>
+      </div>
+      <div class="value-card">
+        <h3>🤝 Trust</h3>
+        <p>Every seller on Floor to Door is vetted and rated by real customers.</p>
+      </div>
+      <div class="value-card">
+        <h3>🧺 Variety</h3>
+        <p>One basket, four categories — fashion, wellness, fragrance and home.</p>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">500+</div><div class="label">Local partners</div></div>
+      <div class="stat"><div class="num">18</div><div class="label">Product categories</div></div>
+      <div class="stat"><div class="num">45min</div><div class="label">Average delivery time</div></div>
+      <div class="stat"><div class="num">9</div><div class="label">Cities covered</div></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT US PAGE ============ -->
+  <section class="page" id="page-contact">
+    <div class="page-header">
+      <h2>Get in touch</h2>
+      <p>Questions about an order, a partnership, or just want to say hi — we read everything.</p>
+    </div>
+
+    <div class="contact-wrap">
+      <!-- this is a demo form, it doesn't send anywhere, see the JS at the bottom -->
+      <form class="contact-form" id="contactForm">
+        <label for="cName">Full name</label>
+        <input id="cName" type="text" placeholder="e.g. Thabo Nkosi" required>
+
+        <label for="cEmail">Email address</label>
+        <input id="cEmail" type="email" placeholder="you@example.com" required>
+
+        <label for="cSubject">Subject</label>
+        <input id="cSubject" type="text" placeholder="What's this about?" required>
+
+        <label for="cMessage">Message</label>
+        <textarea id="cMessage" placeholder="Tell us more..." required></textarea>
+
+        <button type="submit" class="btn-primary" style="margin-top:20px;">Send message</button>
+        <p class="form-msg" id="contactMsg">Thanks — your message has been noted. We'll reply soon.</p>
+      </form>
+
+      <div class="contact-info">
+        <h3>Head office</h3>
+        <p>Sandton, Johannesburg, South Africa</p>
+
+        <h3 style="margin-top:26px;">Reach us</h3>
+        <p>support@floortodoor.co.za</p>
+        <p>+27 11 555 0192</p>
+
+        <h3 style="margin-top:26px;">Hours</h3>
+        <p>Mon – Sat, 07:00 – 21:00</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIGN IN PAGE ============ -->
+  <section class="page" id="page-signin">
+    <div class="auth-wrap">
+      <!-- tabs just toggle which form below is visible, see switchAuth() -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignin" onclick="switchAuth('signin')">Sign In</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchAuth('register')">Create Account</button>
+      </div>
+
+      <form class="auth-form active" id="formSignin">
+        <label for="siEmail">Email</label>
+        <input id="siEmail" type="email" placeholder="you@example.com" required>
+        <label for="siPassword">Password</label>
+        <input id="siPassword" type="password" placeholder="••••••••" required>
+        <button type="submit" class="auth-submit">Sign in</button>
+        <p class="form-msg" id="signinMsg">This is a demo — no account has actually been created.</p>
+      </form>
+
+      <form class="auth-form" id="formRegister">
+        <label for="rName">Full name</label>
+        <input id="rName" type="text" placeholder="e.g. Lerato Dube" required>
+        <label for="rEmail">Email</label>
+        <input id="rEmail" type="email" placeholder="you@example.com" required>
+        <label for="rPassword">Password</label>
+        <input id="rPassword" type="password" placeholder="Create a password" required>
+        <button type="submit" class="auth-submit">Create account</button>
+        <p class="form-msg" id="registerMsg">This is a demo — no account has actually been created.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>&copy; 2026 Floor to Door. All rights reserved.</footer>
+
+
+<script>
+  /* ==========================================
+     PAGE NAVIGATION
+     just hides every .page and shows the one we want - no router library needed
+  ========================================== */
+
+  function showPage(pageName) {
+    document.querySelectorAll('.page').forEach(function (p) {
+      p.classList.remove('active');
+    });
+    document.getElementById('page-' + pageName).classList.add('active');
+
+    // highlight the matching nav link
+    document.querySelectorAll('.nav-link').forEach(function (link) {
+      link.classList.toggle('active', link.dataset.page === pageName);
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('navLinks').classList.remove('open'); // close mobile menu if it was open
+  }
+
+  function toggleMobileNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // used by the category pills on the home page - jumps to Products already filtered
+  function goToCategory(category) {
+    showPage('products');
+    setFilter(category);
+  }
+
+
+  /* ==========================================
+     PRODUCT DATA
+     each product has 3 sample images for the slider, a short description
+     and a few key details. this is just an array, no backend yet.
+  ========================================== */
+
+  const products = [
+    // ---------- FASHION ----------
+    { id: 5, category: 'Fashion', name: 'Everyday Denim Jacket', price: 449,
+      desc: 'A classic mid-wash denim jacket built for every season.',
+      details: ['Sizes: S – XXL', 'Material: 100% cotton denim', 'Care: machine wash cold'],
+      images: ['https://picsum.photos/seed/denim1/500/400','https://picsum.photos/seed/denim2/500/400','https://picsum.photos/seed/denim3/500/400'] },
+    { id: 6, category: 'Fashion', name: 'Linen Summer Shirt', price: 299,
+      desc: 'Breathable linen shirt, perfect for hot Highveld afternoons.',
+      details: ['Sizes: S – XL', 'Material: 100% linen', 'Fit: relaxed'],
+      images: ['https://picsum.photos/seed/linen1/500/400','https://picsum.photos/seed/linen2/500/400','https://picsum.photos/seed/linen3/500/400'] },
+    { id: 7, category: 'Fashion', name: 'Ankara Print Wrap Dress', price: 389,
+      desc: 'A vibrant wrap dress in bold local Ankara print, made by a Joburg designer.',
+      details: ['Sizes: XS – XXL', 'Material: cotton blend', 'Designer: local, hand-cut'],
+      images: ['https://picsum.photos/seed/ankara1/500/400','https://picsum.photos/seed/ankara2/500/400','https://picsum.photos/seed/ankara3/500/400'] },
+    { id: 8, category: 'Fashion', name: 'Everyday Running Sneakers', price: 699,
+      desc: 'Lightweight, cushioned sneakers built for daily wear and light runs.',
+      details: ['Sizes: 4 – 11 (UK)', 'Sole: EVA foam', 'Weight: 260g per shoe'],
+      images: ['https://picsum.photos/seed/sneaker1/500/400','https://picsum.photos/seed/sneaker2/500/400','https://picsum.photos/seed/sneaker3/500/400'] },
+
+    // ---------- WELLNESS / MEDICINAL ----------
+    { id: 9, category: 'Wellness', name: 'Vitamin C Immunity Boost', price: 129,
+      desc: 'High-strength vitamin C tablets to support your everyday immunity.',
+      details: ['Count: 60 tablets', 'Dosage: 1 per day', 'Non-prescription'],
+      images: ['https://picsum.photos/seed/vitc1/500/400','https://picsum.photos/seed/vitc2/500/400','https://picsum.photos/seed/vitc3/500/400'] },
+    { id: 10, category: 'Wellness', name: 'Home First Aid Kit', price: 249,
+      desc: 'A complete first aid kit for everyday home and travel emergencies.',
+      details: ['Pieces: 42', 'Case: water-resistant', 'Includes: bandages, antiseptic, gloves'],
+      images: ['https://picsum.photos/seed/firstaid1/500/400','https://picsum.photos/seed/firstaid2/500/400','https://picsum.photos/seed/firstaid3/500/400'] },
+    { id: 11, category: 'Wellness', name: 'Digital Thermometer', price: 89,
+      desc: 'Fast, accurate digital thermometer with a soft-tip sensor.',
+      details: ['Reading time: 10 seconds', 'Memory: last reading', 'Battery included'],
+      images: ['https://picsum.photos/seed/thermo1/500/400','https://picsum.photos/seed/thermo2/500/400','https://picsum.photos/seed/thermo3/500/400'] },
+    { id: 12, category: 'Wellness', name: 'Muscle & Joint Relief Gel', price: 75,
+      desc: 'A cooling topical gel for muscle aches, joint pain, and stiffness.',
+      details: ['Volume: 100ml', 'Application: 2 – 3 times daily', 'Non-greasy formula'],
+      images: ['https://picsum.photos/seed/gel1/500/400','https://picsum.photos/seed/gel2/500/400','https://picsum.photos/seed/gel3/500/400'] },
+
+    // ---------- FRAGRANCE ----------
+    { id: 13, category: 'Fragrance', name: 'Amber Oud Eau de Parfum', price: 599,
+      desc: 'A rich, warm oud fragrance with amber and sandalwood undertones.',
+      details: ['Volume: 50ml', 'Concentration: EDP', 'Longevity: 8+ hours'],
+      images: ['https://picsum.photos/seed/amber1/500/400','https://picsum.photos/seed/amber2/500/400','https://picsum.photos/seed/amber3/500/400'] },
+    { id: 14, category: 'Fragrance', name: 'Citrus Bloom Cologne', price: 349,
+      desc: 'A fresh, zesty cologne with notes of bergamot and neroli.',
+      details: ['Volume: 100ml', 'Concentration: EDT', 'Best for: daytime wear'],
+      images: ['https://picsum.photos/seed/citrus1/500/400','https://picsum.photos/seed/citrus2/500/400','https://picsum.photos/seed/citrus3/500/400'] },
+    { id: 15, category: 'Fragrance', name: 'Rose Musk Body Mist', price: 149,
+      desc: 'A light, everyday body mist with soft rose and musk notes.',
+      details: ['Volume: 200ml', 'Concentration: body mist', 'Alcohol-light formula'],
+      images: ['https://picsum.photos/seed/rose1/500/400','https://picsum.photos/seed/rose2/500/400','https://picsum.photos/seed/rose3/500/400'] },
+    { id: 16, category: 'Fragrance', name: 'Sandalwood Discovery Set', price: 259,
+      desc: 'A set of three travel-size sandalwood fragrances to find your favourite.',
+      details: ['Set of: 3 x 15ml', 'Concentration: EDP', 'Great for: gifting'],
+      images: ['https://picsum.photos/seed/sandal1/500/400','https://picsum.photos/seed/sandal2/500/400','https://picsum.photos/seed/sandal3/500/400'] },
+
+    // ---------- HOME ----------
+    { id: 17, category: 'Home', name: 'Reusable Grocery Tote Set', price: 119,
+      desc: 'A set of durable, foldable totes for grocery runs and daily errands.',
+      details: ['Set of: 3 totes', 'Material: recycled canvas', 'Machine washable'],
+      images: ['https://picsum.photos/seed/tote1/500/400','https://picsum.photos/seed/tote2/500/400','https://picsum.photos/seed/tote3/500/400'] },
+    { id: 18, category: 'Home', name: 'Scented Soy Candle', price: 159,
+      desc: 'A slow-burning soy candle with warm vanilla and fynbos notes.',
+      details: ['Burn time: 40+ hours', 'Wax: 100% soy', 'Jar: reusable glass'],
+      images: ['https://picsum.photos/seed/candle1/500/400','https://picsum.photos/seed/candle2/500/400','https://picsum.photos/seed/candle3/500/400'] },
+  ];
+
+  const categories = ['All', 'Fashion', 'Wellness', 'Fragrance', 'Home'];
+  let activeFilter = 'All';
+
+
+  /* ==========================================
+     FILTER BUTTONS
+  ========================================== */
+
+  function renderFilters() {
+    const row = document.getElementById('filterRow');
+    row.innerHTML = '';
+
+    categories.forEach(function (cat) {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (cat === activeFilter ? ' active' : '');
+      btn.textContent = cat;
+      btn.onclick = function () { setFilter(cat); };
+      row.appendChild(btn);
+    });
+  }
+
+  function setFilter(cat) {
+    activeFilter = cat;
+    renderFilters();
+    renderProducts();
+  }
+
+
+  /* ==========================================
+     PRODUCT CARDS (each one has its own little image slider)
+  ========================================== */
+
+  function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+
+    const list = activeFilter === 'All'
+      ? products
+      : products.filter(function (p) { return p.category === activeFilter; });
+
+    list.forEach(function (product) {
+      grid.appendChild(buildProductCard(product));
+    });
+  }
+
+  function buildProductCard(product) {
+    let currentImage = 0; // tracks which slider image is showing for this specific card
+
+    const card = document.createElement('div');
+    card.className = 'product-card';
+
+    // ---- slider ----
+    const slider = document.createElement('div');
+    slider.className = 'slider';
+
+    const img = document.createElement('img');
+    img.src = product.images[0];
+    img.alt = product.name;
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'slider-btn prev';
+    prevBtn.textContent = '‹';
+    prevBtn.onclick = function () {
+      currentImage = (currentImage - 1 + product.images.length) % product.images.length;
+      updateSlider();
+    };
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'slider-btn next';
+    nextBtn.textContent = '›';
+    nextBtn.onclick = function () {
+      currentImage = (currentImage + 1) % product.images.length;
+      updateSlider();
+    };
+
+    const dots = document.createElement('div');
+    dots.className = 'dots';
+    const dotEls = product.images.map(function (_, i) {
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dots.appendChild(d);
+      return d;
+    });
+
+    function updateSlider() {
+      img.src = product.images[currentImage];
+      dotEls.forEach(function (d, i) {
+        d.classList.toggle('active', i === currentImage);
+      });
+    }
+
+    slider.append(img, prevBtn, nextBtn, dots);
+
+    // ---- card body ----
+    const body = document.createElement('div');
+    body.className = 'card-body';
+
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = product.category;
+
+    const title = document.createElement('h3');
+    title.textContent = product.name;
+
+    const desc = document.createElement('p');
+    desc.className = 'desc';
+    desc.textContent = product.desc;
+
+    const detailsList = document.createElement('ul');
+    detailsList.className = 'details-list';
+    product.details.forEach(function (d) {
+      const li = document.createElement('li');
+      li.textContent = d;
+      detailsList.appendChild(li);
+    });
+
+    const priceRow = document.createElement('div');
+    priceRow.className = 'price-row';
+
+    const price = document.createElement('span');
+    price.className = 'price';
+    price.textContent = 'R' + product.price;
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'add-btn';
+    addBtn.textContent = 'Add to basket';
+    addBtn.onclick = function () {
+      const isAdded = addBtn.classList.toggle('added');
+      addBtn.textContent = isAdded ? 'Added ✓' : 'Add to basket';
+    };
+
+    priceRow.append(price, addBtn);
+    body.append(tag, title, desc, detailsList, priceRow);
+    card.append(slider, body);
+
+    return card;
+  }
+
+
+  /* ==========================================
+     CONTACT FORM - frontend only for now, just shows a thank you message
+  ========================================== */
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('contactMsg').classList.add('show');
+    e.target.reset();
+  });
+
+
+  /* ==========================================
+     SIGN IN / REGISTER TABS - frontend only for now
+  ========================================== */
+
+  function switchAuth(which) {
+    document.getElementById('tabSignin').classList.toggle('active', which === 'signin');
+    document.getElementById('tabRegister').classList.toggle('active', which === 'register');
+    document.getElementById('formSignin').classList.toggle('active', which === 'signin');
+    document.getElementById('formRegister').classList.toggle('active', which === 'register');
+  }
+
+  document.getElementById('formSignin').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('signinMsg').classList.add('show');
+  });
+
+  document.getElementById('formRegister').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('registerMsg').classList.add('show');
+  });
+
+
+  /* ==========================================
+     INITIAL RENDER - runs once when the page loads
+  ========================================== */
+
+  renderFilters();
+  renderProducts();
+</script>
+
+</body>
+</html>
