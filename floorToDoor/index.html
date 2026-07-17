@@ -23,6 +23,16 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
     <span class="brand-name">Floor to Door</span>
   </div>
 
+  <!-- cart icon - just a visual placeholder for now, no functionality wired up yet -->
+  <button class="cart-btn" aria-label="Cart">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+
   <!-- hamburger, only shows up on mobile (see media query in main.css) -->
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -91,6 +101,19 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
     <div class="page-header">
       <h2>All products</h2>
       <p>Swipe through the photos on each card and check the details before you add it to your basket.</p>
+    </div>
+
+    <!-- search bar - just sits here for now, doesn't actually search anything yet -->
+    <form class="search-row" onsubmit="return false;">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search products...">
+    </form>
+
+    <!-- ============ NEAR-EXPIRY DEALS ============ -->
+    <div class="deals-section">
+      <h2>Almost expired, still good</h2>
+      <p>These are past their best-before date but still safe to use, so sellers have dropped the price. Each card shows how long ago that date passed.</p>
+      <div class="deals-row" id="dealsRow"></div>
     </div>
 
     <!-- filled in by renderFilters() -->
@@ -189,6 +212,8 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
       </form>
 
       <form class="auth-form" id="formRegister">
+        <p class="auth-note">Creating an account lets you track your orders, save your delivery addresses, and get notified when items in your basket go on a near-expiry deal.</p>
+
         <label for="rName">Full name</label>
         <input id="rName" type="text" placeholder="e.g. Lerato Dube" required>
         <label for="rEmail">Email</label>
@@ -310,6 +335,20 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
       images: ['https://picsum.photos/seed/candle1/500/400','https://picsum.photos/seed/candle2/500/400','https://picsum.photos/seed/candle3/500/400'] },
   ];
 
+  // products that are past their best-before date but still fine to use, sold at a discount
+  const dealProducts = [
+    { name: 'Vitamin C Immunity Boost', category: 'Wellness', originalPrice: 129, dealPrice: 65, daysPastExpiry: 6,
+      image: 'https://picsum.photos/seed/vitc1/400/320' },
+    { name: 'Muscle & Joint Relief Gel', category: 'Wellness', originalPrice: 75, dealPrice: 40, daysPastExpiry: 10,
+      image: 'https://picsum.photos/seed/gel1/400/320' },
+    { name: 'Citrus Bloom Cologne', category: 'Fragrance', originalPrice: 349, dealPrice: 199, daysPastExpiry: 15,
+      image: 'https://picsum.photos/seed/citrus1/400/320' },
+    { name: 'Rose Musk Body Mist', category: 'Fragrance', originalPrice: 149, dealPrice: 90, daysPastExpiry: 4,
+      image: 'https://picsum.photos/seed/rose1/400/320' },
+    { name: 'Scented Soy Candle', category: 'Home', originalPrice: 159, dealPrice: 90, daysPastExpiry: 20,
+      image: 'https://picsum.photos/seed/candle1/400/320' },
+  ];
+
   const categories = ['All', 'Fashion', 'Wellness', 'Fragrance', 'Home'];
   let activeFilter = 'All';
 
@@ -335,6 +374,59 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
     activeFilter = cat;
     renderFilters();
     renderProducts();
+  }
+
+
+  /* ==========================================
+     NEAR-EXPIRY DEALS ROW
+  ========================================== */
+
+  function renderDeals() {
+    const row = document.getElementById('dealsRow');
+    row.innerHTML = '';
+    dealProducts.forEach(function (deal) {
+      row.appendChild(buildDealCard(deal));
+    });
+  }
+
+  function buildDealCard(deal) {
+    const card = document.createElement('div');
+    card.className = 'deal-card';
+
+    const img = document.createElement('img');
+    img.src = deal.image;
+    img.alt = deal.name;
+
+    const badge = document.createElement('span');
+    badge.className = 'deal-badge';
+    badge.textContent = deal.daysPastExpiry + ' days past best-before';
+
+    const body = document.createElement('div');
+    body.className = 'deal-body';
+
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = deal.category;
+
+    const title = document.createElement('h3');
+    title.textContent = deal.name;
+
+    const priceRow = document.createElement('div');
+    priceRow.className = 'deal-price-row';
+
+    const oldPrice = document.createElement('span');
+    oldPrice.className = 'original-price';
+    oldPrice.textContent = 'R' + deal.originalPrice;
+
+    const newPrice = document.createElement('span');
+    newPrice.className = 'deal-price';
+    newPrice.textContent = 'R' + deal.dealPrice;
+
+    priceRow.append(oldPrice, newPrice);
+    body.append(tag, title, priceRow);
+    card.append(img, badge, body);
+
+    return card;
   }
 
 
@@ -488,6 +580,7 @@ one page site, the "pages" are just divs that get shown/hidden with JS - see sho
 
   renderFilters();
   renderProducts();
+  renderDeals();
 </script>
 
 </body>
