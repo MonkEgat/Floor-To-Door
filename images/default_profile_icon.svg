@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="100" cy="100" r="98"/>
+    </clipPath>
+  </defs>
+
+  <!-- outer ring for definition against both navy navbar and cream page bg -->
+  <circle cx="100" cy="100" r="99" fill="none" stroke="#FBF6EC" stroke-width="2" opacity="0.6"/>
+
+  <g clip-path="url(#circleClip)">
+    <circle cx="100" cy="100" r="98" fill="#FFA630"/>
+    <circle cx="100" cy="76" r="36" fill="#171B32"/>
+    <path d="M18 214 C18 138 182 138 182 214 Z" fill="#171B32"/>
+  </g>
+</svg>
