@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form'] ?? '') === 'signin'
         //$_SESSION['username'] = $email;
         $_SESSION['username'] = explode('@', $email)[0];
         $_SESSION['type']     = (stripos($email, 'admin') === 0) ? 'admin' : 'customer'; //any email with 'admin' in it lets you login as admin
-
+        $_SESSION['profile_pic'] = 'images/default_profile_icon.svg'; //temporary til actual sign in mechanism implemented
         header('Location: index.php');
         exit();
     }

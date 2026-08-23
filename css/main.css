@@ -86,7 +86,7 @@ img {
 
 /* ================================
    NAVBAR
-   sticky bar at the top with the logo + the 4 page links
+   sticky bar at the top with the logo + the page links
    ================================ */
 
 nav.navbar {
@@ -173,6 +173,21 @@ nav.navbar {
   padding: 1px 6px;
   border-radius: 999px;
   line-height: 1.4;
+}
+
+/* profile icon in the navbar - links to profile.php */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--cream);
 }
 
 /* hamburger button, only shows up on small screens - see media query below */

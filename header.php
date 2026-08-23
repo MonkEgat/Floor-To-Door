@@ -92,12 +92,15 @@ $isAdmin    = $isLoggedIn && isset($_SESSION['type']) && $_SESSION['type'] === '
 
          <?php if ($isLoggedIn): ?>
         <!-- logged in - show a profile icon (initial of the username) instead of the Sign In link -->
-        <a href="profile.php" class="profile-btn <?php echo ($currentPage == 'profile.php') ? 'active' : ''; ?>" aria-label="Profile">
-            <span class="profile-circle"><?php echo strtoupper(substr($_SESSION['username'], 0, 1)); ?></span>
-            <?php echo htmlspecialchars($_SESSION['username']); ?>
+        <a href="profile.php" class="profile-btn">
+        <img src="<?= htmlspecialchars($_SESSION['profile_pic'] ?? 'images/default_profile_icon.svg') ?>"
+         alt="Profile Picture"
+         class="profile-circle">
         </a>
         
-        <a href="api/logout.php" class="nav-link">Sign out</a>
+       <!-- <a href="api/logout.php" class="nav-link">Sign out</a> 
+        LOGOUT BUTTON MOVED to profile.php
+        -->
     <?php else: ?>
         <a href="login.php" class="nav-link <?php echo ($currentPage == 'login.php') ? 'active' : ''; ?>">Sign In</a>
     <?php endif; ?>
