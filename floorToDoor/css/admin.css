@@ -1,0 +1,30 @@
+/*
+   admin.css
+   Small additions on top of main.css for the admin-only pages
+   (Add Product / Add Seller). Everything else — .page, .page-header,
+   .auth-wrap, .auth-form, .auth-submit, label/input/textarea — already
+   comes from main.css, so it isn't repeated here.
+*/
+
+/* main.css styles input/textarea but not select or file inputs — match them */
+select,
+input[type="file"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid #E7E2D6;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: var(--cream);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--marigold);
+}
+
+/* auth-wrap defaults to max-width: 420px for the sign-in card,
+   these forms have more fields so give them a little more room */
+.admin-wrap {
+  max-width: 520px;
+}
