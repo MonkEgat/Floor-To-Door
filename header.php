@@ -91,7 +91,7 @@ $isAdmin    = $isLoggedIn && isset($_SESSION['type']) && $_SESSION['type'] === '
         -->
 
          <?php if ($isLoggedIn): ?>
-        <!-- logged in - show a profile icon (initial of the username) instead of the Sign In link -->
+        <!-- logged in - show a profile icon (initial of the fullName) instead of the Sign In link -->
         <a href="profile.php" class="profile-btn">
         <img src="<?= htmlspecialchars($_SESSION['profile_pic'] ?? 'images/default_profile_icon.svg') ?>"
          alt="Profile Picture"

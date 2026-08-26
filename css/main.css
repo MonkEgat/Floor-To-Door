@@ -926,6 +926,12 @@ textarea {
   font-weight: 800;
 }
 
+/* for error messages upon signing in */
+.form-msg.error {
+    color: var(--coral);
+    font-weight: 600;
+}
+
 
 /* ================================
    FOOTER

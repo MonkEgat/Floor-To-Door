@@ -1,68 +1,32 @@
-function switchAuth(which) {
-  const tabSignin =
-    document.getElementById('tabSignin');
+document.getElementById("login-form").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-  const tabRegister =
-    document.getElementById('tabRegister');
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  const formSignin =
-    document.getElementById('formSignin');
+    const xhttp = new XMLHttpRequest();
 
-  const formRegister =
-    document.getElementById('formRegister');
+    xhttp.onload = function() {
+        const response = JSON.parse(this.responseText);
+        const messageEl = document.getElementById("message");
 
-  if (
-    !tabSignin ||
-    !tabRegister ||
-    !formSignin ||
-    !formRegister
-  ) {
-    return;
-  }
 
-  tabSignin.classList.toggle(
-    'active',
-    which === 'signin'
-  );
+        if (response.status == "success") {
+            // no apikey to store — the session cookie is already set
+            //WAS planning on initially using API key to validate stuff
+            // by the server's response headers, invisibly.
+            window.location.href = "index.php";
+        } else {
+           messageEl.textContent = "Incorrect email or password.";
+           messageEl.classList.add("error", "show");
+        }
+    };
 
-  tabRegister.classList.toggle(
-    'active',
-    which === 'register'
-  );
-
-  formSignin.classList.toggle(
-    'active',
-    which === 'signin'
-  );
-
-  formRegister.classList.toggle(
-    'active',
-    which === 'register'
-  );
-}
-
-// formSignin is intentionally left alone here — no submit listener,
-// no preventDefault(). It's a real <form method="POST" action="login.php">,
-// so we let the browser submit it normally and let login.php's PHP
-// handle it server-side.
-
-// formRegister is still just a front-end demo (no backend yet), so it
-// keeps the old preventDefault() + message-reveal behaviour.
-const formRegister =
-  document.getElementById('formRegister');
-
-if (formRegister) {
-  formRegister.addEventListener(
-    'submit',
-    function (event) {
-      event.preventDefault();
-
-      const registerMsg =
-        document.getElementById('registerMsg');
-
-      if (registerMsg) {
-        registerMsg.classList.add('show');
-      }
-    }
-  );
-}
+    xhttp.open("POST", "api.php", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(JSON.stringify({
+        type: "Login",
+        email: email,
+        password: password
+    }));
+});

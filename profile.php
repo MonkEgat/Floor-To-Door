@@ -25,7 +25,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <main>
     <section class="page active" id="page-profile">
   <div class="profile-header">
-  <h1>Hi <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
+  <h1>Hi <?php echo htmlspecialchars($_SESSION['fullName']); ?></h1>
     <div class="profile-actions">
      <button type="button" class="btn-ghost" id="editProfileBtn">Edit Profile</button>
     <a href="api/logout.php" class="btn-ghost sign-out-btn" onclick="return confirm('Are you sure you want to sign out?');">Sign Out</a>    </div>

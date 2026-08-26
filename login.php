@@ -1,34 +1,12 @@
 <?php
 // ============================================================
-//  TEMPORARY TEST LOGIN — hardcoded, no database.
-//  Only the "Sign In" tab actually does anything: type an email
-//  starting with "admin" (e.g. admin@test.com) to log in as an
-//  admin, anything else logs you in as a customer. No password
-//  is actually checked. The "Create Account" tab is still just
-//  the old front-end demo — swap this whole file for the real
-//  login.php (DB + password_verify + CSRF) before going live.
+//  login.php — view only. All auth logic lives in api.php,
+//  called via XMLHttpRequest from js/login.js and js/register.js.
+//  Session cookie handles identity — no PHP form-handling here.
 // ============================================================
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}
-
-$signinError = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form'] ?? '') === 'signin') {
-    $email = trim($_POST['email'] ?? '');
-
-    if ($email === '') {
-        $signinError = 'Enter an email.';
-    } else {
-        $_SESSION['loggedin'] = true;
-        //$_SESSION['username'] = $email;
-        $_SESSION['username'] = explode('@', $email)[0];
-        $_SESSION['type']     = (stripos($email, 'admin') === 0) ? 'admin' : 'customer'; //any email with 'admin' in it lets you login as admin
-        $_SESSION['profile_pic'] = 'images/default_profile_icon.svg'; //temporary til actual sign in mechanism implemented
-        header('Location: index.php');
-        exit();
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -54,33 +32,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form'] ?? '') === 'signin'
         <button type="button" class="auth-tab" id="tabRegister" onclick="switchAuth('register')">Create Account</button>
       </div>
 
-      <form class="auth-form active" id="formSignin" method="POST" action="login.php">
-        <input type="hidden" name="form" value="signin">
-
-        <label for="siEmail">Email</label>
-        <input id="siEmail" name="email" type="email" placeholder="try admin@test.com" required>
-        <label for="siPassword">Password</label>
-        <input id="siPassword" name="password" type="password" placeholder="anything works for now" required>
+      <form class="auth-form active" id="login-form">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
         <button type="submit" class="auth-submit">Sign in</button>
 
-        <?php if ($signinError): ?>
-          <p class="form-msg show" style="color: var(--coral);"><?php echo htmlspecialchars($signinError); ?></p>
-        <?php else: ?>
-          <p class="form-msg" id="signinMsg">Test mode — email starting with "admin" logs you in as admin, anything else is a customer. Password isn't checked yet.</p>
-        <?php endif; ?>
+        <p class="form-msg" id="message"></p>
       </form>
 
-      <form class="auth-form" id="formRegister">
+      <form class="auth-form" id="register-form">
         <p class="auth-note">Creating an account lets you track your orders, save your delivery addresses, and get notified when items in your basket go on a near-expiry deal.</p>
 
         <label for="rName">Full name</label>
-        <input id="rName" type="text" placeholder="e.g. Lerato Dube" required>
+        <input id="rName" name="name" type="text" placeholder="e.g. Richard Sanchez" required>
         <label for="rEmail">Email</label>
-        <input id="rEmail" type="email" placeholder="you@example.com" required>
+        <input id="rEmail" name="email" type="email" placeholder="you@example.com" required>
+        <label for="rPhone">Phone number (optional)</label>
+        <input id="rPhone" name="phonenum" type="tel" placeholder="e.g. 082 123 4567">
         <label for="rPassword">Password</label>
-        <input id="rPassword" type="password" placeholder="Create a password" required>
+        <input id="rPassword" name="password" type="password" placeholder="Create a password" required>
         <button type="submit" class="auth-submit">Create account</button>
-        <p class="form-msg" id="registerMsg">This is a demo — no account has actually been created.</p>
+
+        <p class="form-msg" id="registerMsg"></p>
       </form>
     </div>
   </section>
@@ -89,8 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form'] ?? '') === 'signin'
 
 <?php include 'footer.php'; ?>
 
+<script src="js/authTabs.js"></script>
 <script src="js/login.js"></script>
-
+<script src="js/register.js"></script>
 
 </body>
 </html>

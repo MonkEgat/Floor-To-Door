@@ -37,7 +37,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || ($_SESSION['type'
         <label for="seller-name">Business Name</label>
         <input type="text" id="seller-name" name="seller-name">
 
-        <label for="seller-username">Username</label>
+       <!-- <label for="seller-username">Username</label>
         <input type="text" id="seller-username" name="seller-username">
 
         <label for="seller-email">Email</label>
@@ -49,7 +49,11 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || ($_SESSION['type'
         <label for="seller-password">Temporary Password</label>
         <input type="password" id="seller-password" name="seller-password">
 
+      -->
+
+
         <button type="submit" class="auth-submit">Add Seller</button>
+
       </form>
     </div>
 

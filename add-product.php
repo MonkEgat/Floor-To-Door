@@ -60,8 +60,8 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || ($_SESSION['type'
           <option value="">Select a seller</option>
         </select>
 
-        <label for="product-image">Product Image</label>
-        <input type="file" id="product-image" name="product-image">
+        <label for="product-images">Product Images</label>
+        <input type="file" id="product-images" name="product-images[]" multiple>
 
         <button type="submit" class="auth-submit">Add Product</button>
       </form>
